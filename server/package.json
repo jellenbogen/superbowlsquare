@@ -1,0 +1,25 @@
+{
+	"name": "superbowl",
+	"description": "Super Bowl Square Server",
+	"author": "jellenbogen <jonathanellenbogen@gmail.com",
+	"version": "0.0.1",
+	"private": true,
+	"dependencies": {
+	    "express": "3.4.8",
+		"consolidate": "0.9.x",
+	    "jade": "*",
+	    "passport": ">= 0.0.0",
+	    "mongoose": "~3.8.8",
+	    "swig": "~1.3.2",
+	    "connect-mongo": "~0.4.0",
+	    "venmo": "0.0.2",
+		"sha1": "1.0.x",
+	    "request": "~2.34.0",
+		"underscore": "1.4.x",
+	    "passport-venmo": "0.0.1",
+		"forever": "0.10.x"
+	},
+	"engines": {
+    	"node": ">=0.6"
+  	}
+}

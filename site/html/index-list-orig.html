@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="../css/superbowl.css">
+    <link rel="stylesheet" type="text/css" href="../css/superbowl-list-view.css">
+    <title>superbowlsquare</title>
+    <script type="text/javascript" src="../js/d3.v3.js"></script>
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <script type="text/javascript" src="../js/superbowl_base.js"></script>
+    <script src="http://connect.facebook.net/en_US/all.js" type="text/javascript"></script>
+    <link rel="icon" href="2013.superbowlsquare.me/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="2013.superbowlsquare.me/favicon.ico" type="image/x-icon" />
+</head>
+<body class="">
+<div id="fb-root"></div>
+<script>
+    // Additional JS functions here
+    FB.init({
+        appId      : superbowl._appId, // App ID
+        channelUrl : 'https://murmuring-wave-9176.herokuapp.com/', // Channel File
+        status     : true, // check login status
+        cookie     : true, // enable cookies to allow the server to access the session
+        xfbml      : true, // parse XFBML
+        oauth      : true
+    });
+    window.setTimeout(superbowl.onContentLoaded.bind(superbowl), 1000);
+
+</script>
+<div class="logout hidden">
+    <div class="rules-button"><p> rules </p></div>
+    <img src="../images/logout-2x-small.png"/>
+</div>
+<div class="team-info hidden">
+    <div class="logo patriots">
+        <img src="../images/logo_patriots.png"/>
+        <div>
+            <p class="team-name x"> Patriots </p>
+            <p class="score"></p>
+        </div>
+    </div>
+    <div class="logo seahawks">
+        <img src="../images/logo_seahawks.png"/>
+        <div>
+            <p class="team-name y"> Seahawks </p>
+            <p class="score"></p>
+        </div>
+    </div>
+</div>
+
+<ul class="view-options">
+    <li class="box-view selected"></li>
+    <li class="list-view"></li>
+</ul>
+<div class="winners removed">
+    <img class="trophy-icon" src="../images/trophy_icon.png"/>
+    <ul>
+        <li class="first hidden">
+            <h4>1st</h4>
+        </li>
+        <li class="second hidden">
+            <h4>half</h4>
+        </li>
+        <li class="third hidden">
+            <h4>3rd</h4>
+        </li>
+        <li class="final hidden">
+            <h4>final</h4>
+        </li>
+    </ul>
+</div>
+
+<div class="square-container hidden">
+    <div class="box-info hidden">
+        <ul class="info">
+            <li class="user-photo-container removed">
+                <img class="user-photo" src=""/>
+            </li>
+            <li class="box-owner removed"></li>
+            <li class="price">
+                <p class="total-boxes"></p>
+                <p class="total-price"></p>
+            </li>
+        </ul>
+    </div>
+    <p class="team-name x"> Top: Patriots / Left: Seahawks</p>
+    <div class="square">
+    </div>
+</div>
+
+<div class="user-picks-container hidden">
+</div>
+
+<div class="login-container">
+    <div class="login-window">
+        <h4>Welcome to the 2015 Super Bowl Square</h4>
+        <div class="login-button">
+            <img src="../images/connect-with-facebook-2x-small.png"/>
+        </div>
+    </div>
+</div>
+<div class="rules-and-payout-container">
+    <div class="rules-and-payout-window">
+        <div class="close">
+            <p>X</p>
+        </div>
+        <ul class="rules">
+            <li><h4>Rules</h4></li>
+            <li>1. Select as many boxes as you'd like</li>
+            <li class="indent">a. You can unselect by clicking that box again</li>
+            <li class="indent">b. You can select boxes up until the night before the Super Bowl</li>
+            <li>2. Once all boxes have been selected, numbers will be assigned randomly to the row and column headers.</li>
+            <li class="indent">a. Numbers 0-9 will be assigned to columns and rows corrosponding to each team.</li>
+            <li class="indent">b. These numbers represent the last digit of each teams score through out the game.</li>
+            <li>3. At the end of each quarter there will be a winner (4 chances to win in all), in order to be the winner for that quarter you must for example: </li>
+            <li class="indent">My boxes patriots: 1 / Seahawks: 4, I win if the score for that quarter was 11-14 or even 21-24.</li>
+        </ul>
+        <ul class="payouts">
+            <li><h4>Payouts</h4></li>
+            <li>1st: $125</li>
+            <li>Halftime: $250</li>
+            <li>3rd: $125</li>
+            <li>Final: $500</li>
+        </ul>
+    </div>
+</div>
+<div class="disable-overlay"></div>
+</body>
+</html>

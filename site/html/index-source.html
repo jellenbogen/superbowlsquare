@@ -1,0 +1,242 @@
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="../css/superbowl.css">
+    <title>superbowlsquare</title>
+    <script type="text/javascript" src="../js/d3.v3.js"></script>
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <script type="text/javascript" src="../js/superbowl_base.js"></script>
+    <script src="http://connect.facebook.net/en_US/all.js" type="text/javascript"></script>
+    <link rel="icon" href="2013.superbowlsquare.me/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="2013.superbowlsquare.me/favicon.ico" type="image/x-icon">
+    <style type="text/css">.fb_hidden{position:absolute;top:-10000px;z-index:10001}.fb_invisible{display:none}.fb_reset{background:none;border:0;border-spacing:0;color:#000;cursor:auto;direction:ltr;font-family:"lucida grande", tahoma, verdana, arial, sans-serif;font-size:11px;font-style:normal;font-variant:normal;font-weight:normal;letter-spacing:normal;line-height:1;margin:0;overflow:visible;padding:0;text-align:left;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;visibility:visible;white-space:normal;word-spacing:normal}.fb_reset>div{overflow:hidden}.fb_link img{border:none}
+    .fb_dialog{background:rgba(82, 82, 82, .7);position:absolute;top:-10000px;z-index:10001}.fb_reset .fb_dialog_legacy{overflow:visible}.fb_dialog_advanced{padding:10px;-moz-border-radius:8px;-webkit-border-radius:8px;border-radius:8px}.fb_dialog_content{background:#fff;color:#333}.fb_dialog_close_icon{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 0 transparent;_background-image:url(http://static.ak.fbcdn.net/rsrc.php/v2/yL/r/s816eWC-2sl.gif);cursor:pointer;display:block;height:15px;position:absolute;right:18px;top:17px;width:15px}.fb_dialog_mobile .fb_dialog_close_icon{top:5px;left:5px;right:auto}.fb_dialog_padding{background-color:transparent;position:absolute;width:1px;z-index:-1}.fb_dialog_close_icon:hover{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -15px transparent;_background-image:url(http://static.ak.fbcdn.net/rsrc.php/v2/yL/r/s816eWC-2sl.gif)}.fb_dialog_close_icon:active{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -30px transparent;_background-image:url(http://static.ak.fbcdn.net/rsrc.php/v2/yL/r/s816eWC-2sl.gif)}.fb_dialog_loader{background-color:#f6f7f8;border:1px solid #606060;font-size:24px;padding:20px}.fb_dialog_top_left,.fb_dialog_top_right,.fb_dialog_bottom_left,.fb_dialog_bottom_right{height:10px;width:10px;overflow:hidden;position:absolute}.fb_dialog_top_left{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/ye/r/8YeTNIlTZjm.png) no-repeat 0 0;left:-10px;top:-10px}.fb_dialog_top_right{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/ye/r/8YeTNIlTZjm.png) no-repeat 0 -10px;right:-10px;top:-10px}.fb_dialog_bottom_left{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/ye/r/8YeTNIlTZjm.png) no-repeat 0 -20px;bottom:-10px;left:-10px}.fb_dialog_bottom_right{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/ye/r/8YeTNIlTZjm.png) no-repeat 0 -30px;right:-10px;bottom:-10px}.fb_dialog_vert_left,.fb_dialog_vert_right,.fb_dialog_horiz_top,.fb_dialog_horiz_bottom{position:absolute;background:#525252;filter:alpha(opacity=70);opacity:.7}.fb_dialog_vert_left,.fb_dialog_vert_right{width:10px;height:100%}.fb_dialog_vert_left{margin-left:-10px}.fb_dialog_vert_right{right:0;margin-right:-10px}.fb_dialog_horiz_top,.fb_dialog_horiz_bottom{width:100%;height:10px}.fb_dialog_horiz_top{margin-top:-10px}.fb_dialog_horiz_bottom{bottom:0;margin-bottom:-10px}.fb_dialog_iframe{line-height:0}.fb_dialog_content .dialog_title{background:#6d84b4;border:1px solid #3a5795;color:#fff;font-size:14px;font-weight:bold;margin:0}.fb_dialog_content .dialog_title>span{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/yd/r/Cou7n-nqK52.gif) no-repeat 5px 50%;float:left;padding:5px 0 7px 26px}body.fb_hidden{-webkit-transform:none;height:100%;margin:0;overflow:visible;position:absolute;top:-10000px;left:0;width:100%}.fb_dialog.fb_dialog_mobile.loading{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/ya/r/3rhSv5V8j3o.gif) white no-repeat 50% 50%;min-height:100%;min-width:100%;overflow:hidden;position:absolute;top:0;z-index:10001}.fb_dialog.fb_dialog_mobile.loading.centered{max-height:590px;min-height:590px;max-width:500px;min-width:500px}#fb-root #fb_dialog_ipad_overlay{background:rgba(0, 0, 0, .45);position:absolute;left:0;top:0;width:100%;min-height:100%;z-index:10000}#fb-root #fb_dialog_ipad_overlay.hidden{display:none}.fb_dialog.fb_dialog_mobile.loading iframe{visibility:hidden}.fb_dialog_content .dialog_header{-webkit-box-shadow:white 0 1px 1px -1px inset;background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#738ABA), to(#2C4987));border-bottom:1px solid;border-color:#1d4088;color:#fff;font:14px Helvetica, sans-serif;font-weight:bold;text-overflow:ellipsis;text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0;vertical-align:middle;white-space:nowrap}.fb_dialog_content .dialog_header table{-webkit-font-smoothing:subpixel-antialiased;height:43px;width:100%}.fb_dialog_content .dialog_header td.header_left{font-size:12px;padding-left:5px;vertical-align:middle;width:60px}.fb_dialog_content .dialog_header td.header_right{font-size:12px;padding-right:5px;vertical-align:middle;width:60px}.fb_dialog_content .touchable_button{background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#4966A6), color-stop(.5, #355492), to(#2A4887));border:1px solid #2f477a;-webkit-background-clip:padding-box;-webkit-border-radius:3px;-webkit-box-shadow:rgba(0, 0, 0, .117188) 0 1px 1px inset, rgba(255, 255, 255, .167969) 0 1px 0;display:inline-block;margin-top:3px;max-width:85px;line-height:18px;padding:4px 12px;position:relative}.fb_dialog_content .dialog_header .touchable_button input{border:none;background:none;color:#fff;font:12px Helvetica, sans-serif;font-weight:bold;margin:2px -12px;padding:2px 6px 3px 6px;text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0}.fb_dialog_content .dialog_header .header_center{color:#fff;font-size:16px;font-weight:bold;line-height:18px;text-align:center;vertical-align:middle}.fb_dialog_content .dialog_content{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/y9/r/jKEcVPZFk-2.gif) no-repeat 50% 50%;border:1px solid #555;border-bottom:0;border-top:0;height:150px}.fb_dialog_content .dialog_footer{background:#f6f7f8;border:1px solid #555;border-top-color:#ccc;height:40px}#fb_dialog_loader_close{float:left}.fb_dialog.fb_dialog_mobile .fb_dialog_close_button{text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0}.fb_dialog.fb_dialog_mobile .fb_dialog_close_icon{visibility:hidden}
+    .fb_iframe_widget{display:inline-block;position:relative}.fb_iframe_widget span{display:inline-block;position:relative;text-align:justify}.fb_iframe_widget iframe{position:absolute}.fb_iframe_widget_fluid_desktop,.fb_iframe_widget_fluid_desktop span,.fb_iframe_widget_fluid_desktop iframe{max-width:100%}.fb_iframe_widget_fluid_desktop iframe{min-width:220px;position:relative}.fb_iframe_widget_lift{z-index:1}.fb_hide_iframes iframe{position:relative;left:-10000px}.fb_iframe_widget_loader{position:relative;display:inline-block}.fb_iframe_widget_fluid{display:inline}.fb_iframe_widget_fluid span{width:100%}.fb_iframe_widget_loader iframe{min-height:32px;z-index:2;zoom:1}.fb_iframe_widget_loader .FB_Loader{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/y9/r/jKEcVPZFk-2.gif) no-repeat;height:32px;width:32px;margin-left:-16px;position:absolute;left:50%;z-index:4}</style></head>
+<body class="ready">
+<div id="fb-root" class=" fb_reset"><div style="position: absolute; top: -10000px; height: 0px; width: 0px;"><div><iframe name="fb_xdm_frame_http" frameborder="0" allowtransparency="true" scrolling="no" id="fb_xdm_frame_http" aria-hidden="true" title="Facebook Cross Domain Communication Frame" tabindex="-1" src="http://static.ak.facebook.com/connect/xd_arbiter/7r8gQb8MIqE.js?version=41#channel=f36a48bbfc&amp;origin=http%3A%2F%2Flocalhost%3A8080" style="border: none;"></iframe><iframe name="fb_xdm_frame_https" frameborder="0" allowtransparency="true" scrolling="no" id="fb_xdm_frame_https" aria-hidden="true" title="Facebook Cross Domain Communication Frame" tabindex="-1" src="https://s-static.ak.facebook.com/connect/xd_arbiter/7r8gQb8MIqE.js?version=41#channel=f36a48bbfc&amp;origin=http%3A%2F%2Flocalhost%3A8080" style="border: none;"></iframe></div></div><div style="position: absolute; top: -10000px; height: 0px; width: 0px;"><div></div></div></div>
+<script>
+    // Additional JS functions here
+    FB.init({
+        appId      : superbowl._appId, // App ID
+        channelUrl : 'https://murmuring-wave-9176.herokuapp.com/', // Channel File
+        status     : true, // check login status
+        cookie     : true, // enable cookies to allow the server to access the session
+        xfbml      : true, // parse XFBML
+        oauth      : true
+    });
+    window.setTimeout(superbowl.onContentLoaded.bind(superbowl), 1000);
+
+</script>
+<div class="logout">
+    <div class="rules-button"><p> rules </p></div>
+    <img src="../images/logout-2x-small.png">
+</div>
+<div class="team-info">
+    <div class="logo patriots">
+        <img src="../images/logo_patriots.png">
+        <div>
+            <p class="team-name x"> Patriots </p>
+            <p class="score"></p>
+        </div>
+    </div>
+    <div class="logo seahawks">
+        <img src="../images/logo_seahawks.png">
+        <div>
+            <p class="team-name y"> Seahawks </p>
+            <p class="score"></p>
+        </div>
+    </div>
+</div>
+<div class="box-info">
+    <ul class="info">
+        <li class="user-photo-container removed">
+            <img class="user-photo" src="">
+        </li>
+        <li class="box-owner removed"></li>
+        <li class="price">
+            <p class="total-boxes">4 boxes x $10</p>
+            <p class="total-price">$40</p>
+        </li>
+    </ul>
+</div>
+<div class="winners removed">
+    <img class="trophy-icon" src="../images/trophy_icon.png">
+    <ul>
+        <li class="first hidden">
+            <h4>1st</h4>
+        </li>
+        <li class="second hidden">
+            <h4>half</h4>
+        </li>
+        <li class="third hidden">
+            <h4>3rd</h4>
+        </li>
+        <li class="final hidden">
+            <h4>final</h4>
+        </li>
+    </ul>
+</div>
+<div class="square-container">
+    <p class="team-name x"> Top: Patriots / Left: Seahawks</p>
+    <div class="row-headers">
+        <div class="box header" row="1"><h4>X</h4></div>
+        <div class="box header" row="2"><h4>X</h4></div>
+        <div class="box header" row="3"><h4>X</h4></div>
+        <div class="box header" row="4"><h4>X</h4></div>
+        <div class="box header" row="5"><h4>X</h4></div>
+        <div class="box header" row="6"><h4>X</h4></div>
+        <div class="box header" row="7"><h4>X</h4></div>
+        <div class="box header" row="8"><h4>X</h4></div>
+        <div class="box header" row="9"><h4>X</h4></div>
+        <div class="box header" row="10"><h4>X</h4></div>
+    </div>
+    <div class="square">
+        <div class="box hidden"></div>
+        <div class="box header" col="1"><h4>X</h4></div>
+        <div class="box header" col="2"><h4>X</h4></div>
+        <div class="box header" col="3"><h4>X</h4></div>
+        <div class="box header" col="4"><h4>X</h4></div>
+        <div class="box header" col="5"><h4>X</h4></div>
+        <div class="box header" col="6"><h4>X</h4></div>
+        <div class="box header" col="7"><h4>X</h4></div>
+        <div class="box header" col="8"><h4>X</h4></div>
+        <div class="box header" col="9"><h4>X</h4></div>
+        <div class="box header" col="10"><h4>X</h4></div>
+        <div class="box selected" index="1" col="1" row="1"><img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpa1/v/t1.0-1/p320x320/10410931_10154261817830386_403833386610826658_n.jpg?oh=127789d0998c0564743cdfadb48d2f92&amp;oe=555DF519&amp;__gda__=1432137243_51f46bec2b1ff9619e86ab8a758de9ee" class="user-photo"></div>
+        <div class="box selected" index="2" col="2" row="1"><img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpa1/v/t1.0-1/p320x320/10410931_10154261817830386_403833386610826658_n.jpg?oh=127789d0998c0564743cdfadb48d2f92&amp;oe=555DF519&amp;__gda__=1432137243_51f46bec2b1ff9619e86ab8a758de9ee" class="user-photo"></div>
+        <div class="box selected" index="3" col="3" row="1"><img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpa1/v/t1.0-1/p320x320/10410931_10154261817830386_403833386610826658_n.jpg?oh=127789d0998c0564743cdfadb48d2f92&amp;oe=555DF519&amp;__gda__=1432137243_51f46bec2b1ff9619e86ab8a758de9ee" class="user-photo"></div>
+        <div class="box selected" index="4" col="4" row="1"><img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpa1/v/t1.0-1/p320x320/10410931_10154261817830386_403833386610826658_n.jpg?oh=127789d0998c0564743cdfadb48d2f92&amp;oe=555DF519&amp;__gda__=1432137243_51f46bec2b1ff9619e86ab8a758de9ee" class="user-photo"></div>
+        <div class="box" index="5" col="5" row="1"></div>
+        <div class="box" index="6" col="6" row="1"></div>
+        <div class="box" index="7" col="7" row="1"></div>
+        <div class="box" index="8" col="8" row="1"></div>
+        <div class="box" index="9" col="9" row="1"></div>
+        <div class="box" index="10" col="10" row="1"></div>
+        <div class="box" index="11" col="1" row="2"></div>
+        <div class="box" index="12" col="2" row="2"></div>
+        <div class="box" index="13" col="3" row="2"></div>
+        <div class="box" index="14" col="4" row="2"></div>
+        <div class="box" index="15" col="5" row="2"></div>
+        <div class="box" index="16" col="6" row="2"></div>
+        <div class="box" index="17" col="7" row="2"></div>
+        <div class="box" index="18" col="8" row="2"></div>
+        <div class="box" index="19" col="9" row="2"></div>
+        <div class="box" index="20" col="10" row="2"></div>
+        <div class="box" index="21" col="1" row="3"></div>
+        <div class="box" index="22" col="2" row="3"></div>
+        <div class="box" index="23" col="3" row="3"></div>
+        <div class="box" index="24" col="4" row="3"></div>
+        <div class="box" index="25" col="5" row="3"></div>
+        <div class="box" index="26" col="6" row="3"></div>
+        <div class="box" index="27" col="7" row="3"></div>
+        <div class="box" index="28" col="8" row="3"></div>
+        <div class="box" index="29" col="9" row="3"></div>
+        <div class="box" index="30" col="10" row="3"></div>
+        <div class="box" index="31" col="1" row="4"></div>
+        <div class="box" index="32" col="2" row="4"></div>
+        <div class="box" index="33" col="3" row="4"></div>
+        <div class="box" index="34" col="4" row="4"></div>
+        <div class="box" index="35" col="5" row="4"></div>
+        <div class="box" index="36" col="6" row="4"></div>
+        <div class="box" index="37" col="7" row="4"></div>
+        <div class="box" index="38" col="8" row="4"></div>
+        <div class="box" index="39" col="9" row="4"></div>
+        <div class="box" index="40" col="10" row="4"></div>
+        <div class="box" index="41" col="1" row="5"></div>
+        <div class="box" index="42" col="2" row="5"></div>
+        <div class="box" index="43" col="3" row="5"></div>
+        <div class="box" index="44" col="4" row="5"></div>
+        <div class="box" index="45" col="5" row="5"></div>
+        <div class="box" index="46" col="6" row="5"></div>
+        <div class="box" index="47" col="7" row="5"></div>
+        <div class="box" index="48" col="8" row="5"></div>
+        <div class="box" index="49" col="9" row="5"></div>
+        <div class="box" index="50" col="10" row="5"></div>
+        <div class="box" index="51" col="1" row="6"></div>
+        <div class="box" index="52" col="2" row="6"></div>
+        <div class="box" index="53" col="3" row="6"></div>
+        <div class="box" index="54" col="4" row="6"></div>
+        <div class="box" index="55" col="5" row="6"></div>
+        <div class="box" index="56" col="6" row="6"></div>
+        <div class="box" index="57" col="7" row="6"></div>
+        <div class="box" index="58" col="8" row="6"></div>
+        <div class="box" index="59" col="9" row="6"></div>
+        <div class="box" index="60" col="10" row="6"></div>
+        <div class="box" index="61" col="1" row="7"></div>
+        <div class="box" index="62" col="2" row="7"></div>
+        <div class="box" index="63" col="3" row="7"></div>
+        <div class="box" index="64" col="4" row="7"></div>
+        <div class="box" index="65" col="5" row="7"></div>
+        <div class="box" index="66" col="6" row="7"></div>
+        <div class="box" index="67" col="7" row="7"></div>
+        <div class="box" index="68" col="8" row="7"></div>
+        <div class="box" index="69" col="9" row="7"></div>
+        <div class="box" index="70" col="10" row="7"></div>
+        <div class="box" index="71" col="1" row="8"></div>
+        <div class="box" index="72" col="2" row="8"></div>
+        <div class="box" index="73" col="3" row="8"></div>
+        <div class="box" index="74" col="4" row="8"></div>
+        <div class="box" index="75" col="5" row="8"></div>
+        <div class="box" index="76" col="6" row="8"></div>
+        <div class="box" index="77" col="7" row="8"></div>
+        <div class="box" index="78" col="8" row="8"></div>
+        <div class="box" index="79" col="9" row="8"></div>
+        <div class="box" index="80" col="10" row="8"></div>
+        <div class="box" index="81" col="1" row="9"></div>
+        <div class="box" index="82" col="2" row="9"></div>
+        <div class="box" index="83" col="3" row="9"></div>
+        <div class="box" index="84" col="4" row="9"></div>
+        <div class="box" index="85" col="5" row="9"></div>
+        <div class="box" index="86" col="6" row="9"></div>
+        <div class="box" index="87" col="7" row="9"></div>
+        <div class="box" index="88" col="8" row="9"></div>
+        <div class="box" index="89" col="9" row="9"></div>
+        <div class="box" index="90" col="10" row="9"></div>
+        <div class="box" index="91" col="1" row="10"></div>
+        <div class="box" index="92" col="2" row="10"></div>
+        <div class="box" index="93" col="3" row="10"></div>
+        <div class="box" index="94" col="4" row="10"></div>
+        <div class="box" index="95" col="5" row="10"></div>
+        <div class="box" index="96" col="6" row="10"></div>
+        <div class="box" index="97" col="7" row="10"></div>
+        <div class="box" index="98" col="8" row="10"></div>
+        <div class="box" index="99" col="9" row="10"></div>
+        <div class="box" index="100" col="10" row="10"></div>
+    </div>
+</div>
+
+<div class="login-container">
+    <div class="login-window">
+        <h4>Welcome to the 2015 Super Bowl Square</h4>
+        <div class="login-button">
+            <img src="../images/connect-with-facebook-2x-small.png">
+        </div>
+    </div>
+</div>
+<div class="rules-and-payout-container">
+    <div class="rules-and-payout-window">
+        <div class="close">
+            <p>X</p>
+        </div>
+        <ul class="rules">
+            <li><h4>Rules</h4></li>
+            <li>1. Select as many boxes as you'd like</li>
+            <li class="indent">a. You can unselect by clicking that box again</li>
+            <li class="indent">b. You can select boxes up until the night before the Super Bowl</li>
+            <li>2. Once all boxes have been selected, numbers will be assigned randomly to the row and column headers.</li>
+            <li class="indent">a. Numbers 0-9 will be assigned to columns and rows corrosponding to each team.</li>
+            <li class="indent">b. These numbers represent the last digit of each teams score through out the game.</li>
+            <li>3. At the end of each quarter there will be a winner (4 chances to win in all), in order to be the winner for that quarter you must for example: </li>
+            <li class="indent">My boxes patriots: 1 / Seahawks: 4, I win if the score for that quarter was 11-14 or even 21-24.</li>
+        </ul>
+        <ul class="payouts">
+            <li><h4>Payouts</h4></li>
+            <li>1st: $125</li>
+            <li>Halftime: $250</li>
+            <li>3rd: $125</li>
+            <li>Final: $500</li>
+        </ul>
+    </div>
+</div>
+<div class="disable-overlay"></div>
+
+</body></html>

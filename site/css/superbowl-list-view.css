@@ -1,0 +1,54 @@
+.user-picks-container {
+    position: relative;
+    width: 80%;
+    max-width: 1000px;
+    height: auto;
+    margin: 25px auto 0 auto;
+    z-index: 1;
+}
+
+.user-picks-container.hidden {
+    display: none;
+}
+
+.user-picks {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    height: auto;
+    list-style: none;
+    padding: 0;
+    margin: 0 auto 25px auto;
+    font-size: 40px;
+    vertical-align: top;
+}
+
+.user-picks .picks {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+}
+
+.user-picks .team-logo {
+    width: 60%;
+    margin: 0 10%;
+}
+
+.user-picks .picks .left {
+    float: left;
+    width: 40%;
+}
+
+.user-picks .picks .right {
+    float: right;
+    width: 40%;
+}
+
+.user-picks .picks .value {
+    text-align: center;
+    margin: 0 auto;
+    font-weight: 200;
+}

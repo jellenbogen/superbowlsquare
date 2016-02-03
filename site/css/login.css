@@ -1,0 +1,99 @@
+body {
+    /*min-width: 1000px;*/
+    height: auto;
+    margin: 0;
+    padding: 0;
+}
+
+body * {
+    font-family: "Helvetica Neue", helvetica, san-serif;
+}
+
+.login {
+    position: fixed;
+    top: 0; right: 0; bottom: 0; left: 0;
+    background-color: #e8e8e8;
+    background-image: linear-gradient(to top,rgb(255, 255, 255) 0%,rgb(209, 209, 209) 100%);
+    background-image: -ms-linear-gradient(bottom,rgb(255, 255, 255) 0%,rgb(209, 209, 209) 100%);
+    padding-top: 70px;
+    overflow-y: scroll;
+}
+
+/* IE8- CSS hack */
+@media \0screen\,screen\9 {
+    body.login {
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffd1d1d1",endColorstr="#ffffffff",GradientType=0);
+    }
+}
+
+.login .login-button {
+    position: relative;
+    display: block;
+    margin: 35px auto 50px auto;
+    width: 90%;
+    max-width: 200px;
+    cursor: pointer;
+    border: solid 1px #3A3A3A;
+    border-radius: 25px;
+    padding: 10px 50px;
+}
+
+.login .login-button img {
+    position: relative;
+    margin: 0 auto;
+    display: block;
+    width: 80%;
+    pointer-events: none;
+}
+
+.team-info {
+    width: 100%;
+    min-height: 80px;
+    margin: 0 auto;
+    position: relative;
+    text-align: center;
+}
+
+.team-info .team {
+    list-style: none;
+    display: inline-block;
+    position: relative;
+    padding: 0;
+}
+
+.team-info .team > li {
+    display: block;
+}
+
+.team-info .logo-container {
+    display: block;
+    width: 100%;
+    position: relative;
+    text-align: center;
+}
+
+.team-info .logo {
+    width: 150px;
+    margin: 0 auto;
+    display: block;
+    padding: 0 15px;
+}
+
+.team-info div.logo img {
+    width: 90%;
+    margin: 0 auto;
+    display: block;
+}
+
+.login .title {
+    display: block;
+    font-size: 20px;
+    padding: 5px;
+    background: #3A3A3A;
+    font-weight: 100;
+    color: #DCDCDC;
+    margin: 10px auto;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+}
