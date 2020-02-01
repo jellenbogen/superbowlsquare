@@ -15,4 +15,4 @@ var BoxSchema = new Schema({
 
 var Box = mongoose.model('Box', BoxSchema);
 
-module.exports = {"Box": Box, price: 10};
+module.exports = {"Box": Box, price: 20};

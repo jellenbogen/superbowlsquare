@@ -11,6 +11,7 @@ var express = require('express'),
     cons = require('consolidate'),
     swig = require('swig'),
     VenmoStrategy = require('passport-venmo').Strategy,
+    session = require('express-session'),
     MongoStore = require('connect-mongo')(express);
 
 var config = require('./config.js');
@@ -32,13 +33,10 @@ SuperBowl.app.set('view engine', 'html');
 SuperBowl.app.set('views', './templates/');
 
 SuperBowl.app.use(passport.initialize());
-SuperBowl.app.use(express.cookieParser('S3CRE7'));
-SuperBowl.app.use(express.session({
-    store: new MongoStore({
-        db: config.mongo.name,
-        host: config.mongo.host,
-        port: config.mongo.port
-    }),
+SuperBowl.app.use(express.cookieParser(config.sessionSecret));
+SuperBowl.app.use(session({
+    resave: true,
+    saveUninitialized: true,
     secret: config.sessionSecret
 }));
 SuperBowl.app.use(SuperBowl.app.router);
@@ -335,13 +333,15 @@ SuperBowl.app.get('/squareData', function(req, res) {
 SuperBowl.app.get('/', function(req, res){
     res.header("Content-Type","text/html");
     res.header("Access-Control-Allow-Origin", "*");
-    if (!req.session.user) {
-        res.redirect('/login');
-    } else {
-        //var index = fs.readFileSync('../site/html/index-list.html');
-        //res.end(index);
-        res.render('index.html', {userData: '' + JSON.stringify(req.session.user)});
-    }
+    res.render('index.html', {});
+
+    // if (!req.session.user) {
+    //     res.redirect('/login');
+    // } else {
+    //     //var index = fs.readFileSync('../site/html/index-list.html');
+    //     //res.end(index);
+    //     res.render('index.html', {userData: '' + JSON.stringify(req.session.user)});
+    // }
 });
 
 SuperBowl.app.get('/login', function(req, res){
