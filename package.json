@@ -24,6 +24,10 @@
 		"venmo": "0.0.2"
 	},
 	"engines": {
-		"node": ">=0.6"
-	}
+		"node": ">=8.0.0"
+	},
+	"scripts": {
+		"start": "node SuperBowlServer.js"
+	},
+	"main": "SuperBowlServer.js"
 }

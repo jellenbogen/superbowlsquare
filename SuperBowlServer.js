@@ -29,7 +29,7 @@ mongoose.connect(config.mongo.connectionString, {useNewUrlParser: true});
 
 SuperBowl = {};
 SuperBowl.app = express();
-SuperBowl.app.use(static(path.join(__dirname, '../site')));
+SuperBowl.app.use(static(path.join(__dirname, './site')));
 SuperBowl.app.engine('.html', cons.swig);
 SuperBowl.app.set('view engine', 'html');
 SuperBowl.app.set('views', './templates/');
