@@ -1,14 +1,13 @@
 /*
  * common.js: Tests for common utility function in nconf.
  *
- * (C) 2011, Nodejitsu Inc.
+ * (C) 2011, Charlie Robbins and the Contributors.
  *
  */
 
 var fs = require('fs'),
     path = require('path'),
     vows = require('vows'),
-    assert = require('assert'),
     helpers = require('./helpers'),
     nconf = require('../lib/nconf');
 

@@ -1,7 +1,7 @@
 /*
  * utils.js: Utility functions for the nconf module.
  *
- * (C) 2011, Nodejitsu Inc.
+ * (C) 2011, Charlie Robbins and the Contributors.
  *
  */
 
@@ -19,8 +19,9 @@ var common = exports;
 // If given null or undefined it should return an empty path.
 // '' should still be respected as a path.
 //
-common.path = function (key) {
-  return key == null ? [] : key.split(':');
+common.path = function (key, separator) {
+  separator = separator || ':';
+  return key == null ? [] : key.split(separator);
 };
 
 //
@@ -29,6 +30,15 @@ common.path = function (key) {
 //
 common.key = function () {
   return Array.prototype.slice.call(arguments).join(':');
+};
+
+//
+// ### function key (arguments)
+// Returns a joined string from the `arguments`,
+// first argument is the join delimiter.
+//
+common.keyed = function () {
+  return Array.prototype.slice.call(arguments, 1).join(arguments[0]);
 };
 
 //
@@ -111,3 +121,55 @@ common.merge = function (objs) {
 common.capitalize = function (str) {
   return str && str[0].toUpperCase() + str.slice(1);
 };
+
+//
+// ### function parseValues (any)
+// #### @any {string} String to parse as native data-type or return as is
+// try to parse `any` as a native data-type
+//
+common.parseValues = function (value) {
+  var val = value;
+  
+  try {
+    val = JSON.parse(value);
+  } catch (ignore) {
+    // Check for any other well-known strings that should be "parsed"
+    if (value === 'undefined'){
+      val = void 0;
+    }
+  }
+
+  return val;
+};
+
+//
+// ### function transform(map, fn)
+// #### @map {object} Object of key/value pairs to apply `fn` to
+// #### @fn {function} Transformation function that will be applied to every key/value pair
+// transform a set of key/value pairs and return the transformed result
+common.transform = function(map, fn) {
+  var pairs = Object.keys(map).map(function(key) {
+    var obj = { key: key, value: map[key]};
+    var result = fn.call(null, obj);
+
+    if (!result) {
+      return null;
+    } else if (result.key) {
+      return result;
+    }
+
+    var error = new Error('Transform function passed to store returned an invalid format: ' + JSON.stringify(result));
+    error.name = 'RuntimeError';
+    throw error;
+  });
+
+
+  return pairs
+    .filter(function(pair) {
+      return pair !== null;
+    })
+    .reduce(function(accumulator, pair) {
+      accumulator[pair.key] = pair.value;
+      return accumulator;
+    }, {});
+}

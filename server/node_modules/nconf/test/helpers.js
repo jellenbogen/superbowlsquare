@@ -1,22 +1,21 @@
 /*
  * helpers.js: Test helpers for nconf.
  *
- * (C) 2011, Nodejitsu Inc.
+ * (C) 2011, Charlie Robbins and the Contributors.
  *
  */
- 
+
 var assert = require('assert'),
     spawn = require('child_process').spawn,
-    util = require('util'),
     fs = require('fs'),
     path = require('path'),
     nconf = require('../lib/nconf');
 
 exports.assertMerged = function (err, merged) {
-  merged = merged instanceof nconf.Provider 
+  merged = merged instanceof nconf.Provider
     ? merged.store.store
     : merged;
-    
+
   assert.isNull(err);
   assert.isObject(merged);
   assert.isTrue(merged.apples);
@@ -34,18 +33,18 @@ exports.assertSystemConf = function (options) {
   return {
     topic: function () {
       var env = null;
-      
+
       if (options.env) {
         env = {}
         Object.keys(process.env).forEach(function (key) {
           env[key] = process.env[key];
         });
-        
+
         Object.keys(options.env).forEach(function (key) {
           env[key] = options.env[key];
         });
       }
-      
+
       var child = spawn('node', [options.script].concat(options.argv), { env: env });
       child.stdout.once('data', this.callback.bind(this, null));
     },

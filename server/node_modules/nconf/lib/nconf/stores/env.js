@@ -1,7 +1,7 @@
 /*
  * env.js: Simple memory-based store for environment variables
  *
- * (C) 2011, Nodejitsu Inc.
+ * (C) 2011, Charlie Robbins and the Contributors.
  *
  */
 
@@ -23,10 +23,19 @@ var Env = exports.Env = function (options) {
   this.readOnly  = true;
   this.whitelist = options.whitelist || [];
   this.separator = options.separator || '';
+  this.lowerCase = options.lowerCase || false;
+  this.parseValues = options.parseValues || false;
+  this.transform = options.transform || false;
+
+  if (({}).toString.call(options.match) === '[object RegExp]'
+      && typeof options !== 'string') {
+    this.match = options.match;
+  }
+
   if (options instanceof Array) {
     this.whitelist = options;
   }
-  if (typeof(options) === 'string') {
+  if (typeof(options) === 'string' || options instanceof RegExp) {
     this.separator = options;
   }
 };
@@ -50,14 +59,43 @@ Env.prototype.loadSync = function () {
 Env.prototype.loadEnv = function () {
   var self = this;
 
+  var env = process.env;
+
+  if (this.lowerCase) {
+    env = {};
+    Object.keys(process.env).forEach(function (key) {
+      env[key.toLowerCase()] = process.env[key];
+    });
+  }
+
+  if (this.transform) {
+    env = common.transform(env, this.transform);
+  }
+
   this.readOnly = false;
-  Object.keys(process.env).filter(function (key) {
-    return !self.whitelist.length || self.whitelist.indexOf(key) !== -1;
+  Object.keys(env).filter(function (key) {
+    if (self.match && self.whitelist.length) {
+      return key.match(self.match) || self.whitelist.indexOf(key) !== -1
+    }
+    else if (self.match) {
+      return key.match(self.match);
+    }
+    else {
+      return !self.whitelist.length || self.whitelist.indexOf(key) !== -1
+    }
   }).forEach(function (key) {
+    
+    var val = env[key];
+
+    if (self.parseValues) {
+      val = common.parseValues(val);
+    }
+
     if (self.separator) {
-      self.set(common.key.apply(common, key.split(self.separator)), process.env[key]);
-    } else {
-      self.set(key, process.env[key]);
+      self.set(common.key.apply(common, key.split(self.separator)), val);
+    }
+    else {
+      self.set(key, val);
     }
   });
 

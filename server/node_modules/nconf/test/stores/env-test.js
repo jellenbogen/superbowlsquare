@@ -1,13 +1,12 @@
 /*
  * env-test.js: Tests for the nconf env store.
  *
- * (C) 2011, Nodejitsu Inc.
+ * (C) 2011, Charlie Robbins and the Contributors.
  *
  */
 
 var vows = require('vows'),
     assert = require('assert'),
-    helpers = require('../helpers'),
     nconf = require('../../lib/nconf');
 
 vows.describe('nconf/stores/env').addBatch({

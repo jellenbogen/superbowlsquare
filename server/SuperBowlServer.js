@@ -12,7 +12,9 @@ var express = require('express'),
     swig = require('swig'),
     VenmoStrategy = require('passport-venmo').Strategy,
     session = require('express-session'),
-    MongoStore = require('connect-mongo')(express);
+    static = require('serve-static'),
+    errorhandler = require('errorhandler'),
+    MongoStore = require('connect-mongo')(session);
 
 var config = require('./config.js');
 var boxPrice = config.boxPrice;
@@ -23,28 +25,22 @@ var Box = require('./models/box.js')["Box"];
 var Winner = require('./models/winner.js')["Winner"];
 
 var mongoose = require('mongoose');
-mongoose.connect(config.mongo.url);
+mongoose.connect(config.mongo.connectionString, {useNewUrlParser: true});
 
 SuperBowl = {};
 SuperBowl.app = express();
-SuperBowl.app.use(express.static(path.join(__dirname, '../site')));
+SuperBowl.app.use(static(path.join(__dirname, '../site')));
 SuperBowl.app.engine('.html', cons.swig);
 SuperBowl.app.set('view engine', 'html');
 SuperBowl.app.set('views', './templates/');
 
 SuperBowl.app.use(passport.initialize());
-SuperBowl.app.use(express.cookieParser(config.sessionSecret));
 SuperBowl.app.use(session({
     resave: true,
     saveUninitialized: true,
     secret: config.sessionSecret
 }));
-SuperBowl.app.use(SuperBowl.app.router);
 
-// development only
-if ('development' == SuperBowl.app.get('env')) {
-    SuperBowl.app.use(express.errorHandler());
-}
 
 passport.serializeUser(function(user, done) {
     done(null, user);
@@ -333,15 +329,14 @@ SuperBowl.app.get('/squareData', function(req, res) {
 SuperBowl.app.get('/', function(req, res){
     res.header("Content-Type","text/html");
     res.header("Access-Control-Allow-Origin", "*");
-    res.render('index.html', {});
 
-    // if (!req.session.user) {
-    //     res.redirect('/login');
-    // } else {
-    //     //var index = fs.readFileSync('../site/html/index-list.html');
-    //     //res.end(index);
-    //     res.render('index.html', {userData: '' + JSON.stringify(req.session.user)});
-    // }
+    if (!req.session.user) {
+        res.redirect('/login');
+    } else {
+        //var index = fs.readFileSync('../site/html/index-list.html');
+        //res.end(index);
+        res.render('index.html', {userData: '' + JSON.stringify(req.session.user)});
+    }
 });
 
 SuperBowl.app.get('/login', function(req, res){
@@ -408,6 +403,11 @@ SuperBowl.app.get('/payUp', function(req, res){
 
     SuperBowl.getSessionUser(req, res, sessionUserFetched);
 });
+
+// development only
+if ('development' === SuperBowl.app.get('env')) {
+    SuperBowl.app.use(errorhandler());
+}
 
 SuperBowl.app.listen(8080);
 

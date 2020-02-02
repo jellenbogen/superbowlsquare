@@ -1,12 +1,11 @@
 /*
  * complete-test.js: Complete test for multiple stores.
  *
- * (C) 2011, Nodejitsu Inc.
+ * (C) 2011, Charlie Robbins and the Contributors.
  *
  */
 
 var fs = require('fs'),
-    path = require('path'),
     vows = require('vows'),
     assert = require('assert'),
     nconf = require('../lib/nconf'),
@@ -16,12 +15,27 @@ var fs = require('fs'),
 var completeTest = helpers.fixture('complete-test.json'),
     complete = helpers.fixture('complete.json');
 
+// prime the process.env
+process.env['NCONF_foo'] = 'bar';
+process.env.FOO = 'bar';
+process.env.BAR = 'zalgo';
+process.env.NODE_ENV = 'debug';
+process.env.FOOBAR = 'should not load';
+process.env.json_array = JSON.stringify(['foo', 'bar', 'baz']);
+process.env.json_obj = JSON.stringify({foo: 'bar', baz: 'foo'});
+process.env.NESTED__VALUE = 'nested';
+process.env.NESTED___VALUE_EXTRA_LODASH = '_nested_';
+
 vows.describe('nconf/multiple-stores').addBatch({
   "When using the nconf with multiple providers": {
     topic: function () {
       var that = this;
       helpers.cp(complete, completeTest, function () {
-        nconf.env();
+        nconf.env({
+          // separator: '__',
+          match: /^NCONF_/,
+          whitelist: ['NODE_ENV', 'FOO', 'BAR']
+        });
         nconf.file({ file: completeTest });
         nconf.use('argv', { type: 'literal', store: data });
         that.callback();
@@ -34,7 +48,7 @@ vows.describe('nconf/multiple-stores').addBatch({
     },
     "env vars": {
       "are present": function () {
-        Object.keys(process.env).forEach(function (key) {
+        ['NODE_ENV', 'FOO', 'BAR', 'NCONF_foo'].forEach(function (key) {
           assert.equal(nconf.get(key), process.env[key]);
         });
       }
@@ -122,5 +136,191 @@ vows.describe('nconf/multiple-stores').addBatch({
       nconf.remove('argv');
       nconf.remove('env');
     }
+  }
+}).addBatch({
+  // Threw this in it's own batch to make sure it's run separately from the
+  // sync check
+  "When using env with lowerCase:true": {
+    topic: function () {
+      var that = this;
+      helpers.cp(complete, completeTest, function () {
+        nconf.env({ lowerCase: true });
+        that.callback();
+      });
+    },
+    "env vars": {
+      "keys also available as lower case": function () {
+        Object.keys(process.env).forEach(function (key) {
+          assert.equal(nconf.get(key.toLowerCase()), process.env[key]);
+        });
+      }
+    },
+    teardown: function () {
+      nconf.remove('env');
+    }
+  }
+}).addBatch({
+  // Threw this in it's own batch to make sure it's run separately from the
+  // sync check
+  "When using env with parseValues:true": {
+    topic: function () {
+      var that = this;
+      helpers.cp(complete, completeTest, function () {
+        nconf.env({ parseValues: true });
+        that.callback();
+      });
+    },
+    "env vars": {
+      "JSON keys properly parsed": function () {
+        Object.keys(process.env).forEach(function (key) {
+          var val = process.env[key];
+          
+          try {
+            val = JSON.parse(val);
+          } catch (err) {}
+
+          assert.deepEqual(nconf.get(key), val);
+        });
+      }
+    },
+    teardown: function () {
+      nconf.remove('env');
+    }
+  },
+}).addBatch({
+  // Threw this in it's own batch to make sure it's run separately from the
+  // sync check
+  "When using env with transform:fn": {
+    topic: function () {
+
+      function testTransform(obj) {
+        if (obj.key === 'FOO') {
+          obj.key = 'FOOD';
+          obj.value = 'BARFOO';
+        }
+
+        return obj;
+      }
+
+      var that = this;
+      helpers.cp(complete, completeTest, function () {
+        nconf.env({ transform: testTransform })
+        that.callback();
+      });
+    }, "env vars": {
+      "port key/value properly transformed": function() {
+        assert.equal(nconf.get('FOOD'), 'BARFOO');
+      }
+    }
+  },
+  teardown: function () {
+    nconf.remove('env');
+  }
+}).addBatch({
+  // Threw this in it's own batch to make sure it's run separately from the
+  // sync check
+  "When using env with a transform:fn that drops an entry": {
+    topic: function () {
+
+      function testTransform(obj) {
+        if (obj.key === 'FOO') {
+          return false;
+        }
+
+        return obj;
+      }
+
+      var that = this;
+      helpers.cp(complete, completeTest, function () {
+        nconf.env({ transform: testTransform });
+        that.callback();
+      });
+    }, "env vars": {
+      "port key/value properly transformed": function() {
+        assert.equal(typeof nconf.get('FOO'), 'undefined');
+      }
+    }
+  },
+  teardown: function () {
+    nconf.remove('env');
+  }
+}).addBatch({
+  // Threw this in it's own batch to make sure it's run separately from the
+  // sync check
+  "When using env with a transform:fn that return an undefined value": {
+    topic: function () {
+
+      function testTransform(obj) {
+        if (obj.key === 'FOO') {
+          return {key: 'FOO', value: undefined};
+        }
+
+        return obj;
+      }
+
+      var that = this;
+      helpers.cp(complete, completeTest, function () {
+        nconf.env({ transform: testTransform });
+        that.callback();
+      });
+    }, "env vars": {
+      "port key/value properly transformed": function() {
+        assert.equal(typeof nconf.get('FOO'), 'undefined');
+      }
+    }
+  },
+  teardown: function () {
+    nconf.remove('env');
+  }
+}).addBatch({
+  // Threw this in it's own batch to make sure it's run separately from the
+  // sync check
+  "When using env with a bad transform:fn": {
+    topic: function () {
+      function testTransform() {
+        return {foo: 'bar'};
+      }
+
+      var that = this;
+      helpers.cp(complete, completeTest, function () {
+        try {
+          nconf.env({ transform: testTransform });
+          that.callback();
+        } catch (err) {
+          that.callback(null, err);
+        }
+      });
+    }, "env vars": {
+      "port key/value throws transformation error": function(err) {
+        assert.equal(err.name, 'RuntimeError');
+      }
+    }
+  },
+  teardown: function () {
+    nconf.remove('env');
+  }
+}).addBatch({
+  // Threw this in it's own batch to make sure it's run separately from the
+  // sync check
+  "When using env with a bad transform:fn": {
+    topic: function () {
+
+      var that = this;
+      helpers.cp(complete, completeTest, function () {
+        try {
+          nconf.env({ separator: /__+/ });
+          that.callback();
+        } catch (err) {
+          that.callback(null, err);
+        }
+      });
+    }, "env vars": {
+      "can access to nested values": function(err) {
+        assert.deepEqual(nconf.get('NESTED'), {VALUE:'nested', VALUE_EXTRA_LODASH: '_nested_'});
+      }
+    }
+  },
+  teardown: function () {
+    nconf.remove('env');
   }
 }).export(module);
