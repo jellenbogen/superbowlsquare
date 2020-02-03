@@ -13,7 +13,7 @@
 		"forever": "2.0.x",
 		"jade": "*",
 		"mongodb": "^3.5.2",
-		"mongoose": "*",
+		"mongoose": "5.8.11",
 		"passport": ">=0.4.1",
 		"passport-venmo": "0.0.1",
 		"request": "~2.88.0",

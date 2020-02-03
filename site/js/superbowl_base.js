@@ -7,9 +7,11 @@ superbowl = {
     _isDev: false,
     _loggedInUser: null,
     // Rows
-    _team1Index: ["X", "X", "X", "X", "X", "X", "X", "X", "X", "X", ],
+    // _team1Index: ["X", "X", "X", "X", "X", "X", "X", "X", "X", "X", ],
+    _team1Index: ["1", "5", "3", "7", "2", "8", "9", "6", "4", "0"],
     // Columns
-    _team2Index: ["X", "X", "X", "X", "X", "X", "X", "X", "X", "X", ],
+    // _team2Index: ["X", "X", "X", "X", "X", "X", "X", "X", "X", "X"],
+    _team2Index: ["5", "9", "1", "0", "8", "3", "2", "7", "4", "6"],
     _userSelectedBoxes: {},
     _winners: [],
 
@@ -22,9 +24,10 @@ superbowl = {
     },
 
     isClosed: function() {
-        var superBowlDate = new Date("Sun Feb 7 2016 3:00:00 GMT-0800 (PST)");
-        var currentDate = new Date();
-        return currentDate > superBowlDate;
+        return true;
+        // var superBowlDate = new Date("Sun Feb 2 2020 15:00:00 GMT-0800 (PST)");
+        // var currentDate = new Date();
+        // return currentDate > superBowlDate;
     },
 
     setupSquare: function() {

@@ -25,7 +25,19 @@ var Box = require('./models/box.js')["Box"];
 var Winner = require('./models/winner.js')["Winner"];
 
 var mongoose = require('mongoose');
-mongoose.connect(config.mongo.connectionString, {useNewUrlParser: true});
+mongoose.connect(config.mongo.connectionString, {
+    dbName:'superbowl',
+    useNewUrlParser: true
+});
+
+// const MongoClient = require('mongodb').MongoClient;
+// const uri = config.mongo.connectionString;
+// const client = new MongoClient(uri, { useNewUrlParser: true });
+// client.connect(err => {
+//     const collection = client.db("superbowl").collection("sessions");
+//     // perform actions on the collection object
+//     client.close();
+// });
 
 SuperBowl = {};
 SuperBowl.app = express();
@@ -36,6 +48,7 @@ SuperBowl.app.set('views', './templates/');
 
 SuperBowl.app.use(passport.initialize());
 SuperBowl.app.use(session({
+    store: new MongoStore({ mongooseConnection: mongoose.connection }),
     resave: true,
     saveUninitialized: true,
     secret: config.sessionSecret
@@ -120,7 +133,7 @@ SuperBowl.getSessionUser = function(req, res, callback) {
         if (sessionUser) {
             callback(sessionUser)
         } else {
-            res.header("Content-Type:","application/json");
+            res.header("Content-Type","application/json");
             res.header("Access-Control-Allow-Origin", "*");
             res.send({error: 'Unable to fetch session user'});
         }
@@ -131,7 +144,7 @@ SuperBowl.getSessionUser = function(req, res, callback) {
  * -------------- App Functions --------------
  */
 SuperBowl.app.get('/addBox', function(req, res) {
-    res.header("Content-Type:","application/json");
+    res.header("Content-Type","application/json");
     res.header("Access-Control-Allow-Origin", "*");
     var params = req.query;
 
@@ -158,7 +171,7 @@ SuperBowl.app.get('/addBox', function(req, res) {
 });
 
 SuperBowl.app.get('/removeBox', function(req, res) {
-    res.header("Content-Type:","application/json");
+    res.header("Content-Type","application/json");
     res.header("Access-Control-Allow-Origin", "*");
     var params = req.query;
 
@@ -181,7 +194,7 @@ SuperBowl.app.get('/removeBox', function(req, res) {
 
 SuperBowl.app.get('/removeAllBoxes', function(req, res){
     boxesController.removeAllBoxes(function(){
-        res.header("Content-Type:","application/json");
+        res.header("Content-Type","application/json");
         res.header("Access-Control-Allow-Origin", "*");
         res.send({message: 'All selected boxes have been removed.'});
     });
@@ -189,7 +202,7 @@ SuperBowl.app.get('/removeAllBoxes', function(req, res){
 
 SuperBowl.app.get('/boxes', function(req, res) {
     boxesController.getAllBoxes(function(docs){
-        res.header("Content-Type:","application/json");
+        res.header("Content-Type","application/json");
         res.header("Access-Control-Allow-Origin", "*");
         res.send(docs);
     });
@@ -197,7 +210,7 @@ SuperBowl.app.get('/boxes', function(req, res) {
 
 SuperBowl.app.get('/users', function(req, res) {
     usersController.getAllUsers(function(docs){
-        res.header("Content-Type:","application/json");
+        res.header("Content-Type","application/json");
         res.header("Access-Control-Allow-Origin", "*");
         res.send(docs);
     });
@@ -205,7 +218,7 @@ SuperBowl.app.get('/users', function(req, res) {
 
 SuperBowl.app.get('/userList', function(req, res) {
     usersController.userList(function(docs){
-        res.header("Content-Type:","application/json");
+        res.header("Content-Type","application/json");
         res.header("Access-Control-Allow-Origin", "*");
         res.send(docs);
     });
@@ -213,7 +226,7 @@ SuperBowl.app.get('/userList', function(req, res) {
 
 SuperBowl.app.get('/addUser', function(req, res) {
     var params = req.query;
-    res.header("Content-Type:","application/json");
+    res.header("Content-Type","application/json");
     res.header("Access-Control-Allow-Origin", "*");
 
     var addUserCallback = function(savedUser) {
@@ -231,7 +244,7 @@ SuperBowl.app.get('/addUser', function(req, res) {
 
 SuperBowl.app.get('/removeAllUsers', function(req, res){
     usersController.removeAllUsers(function(){
-        res.header("Content-Type:","application/json");
+        res.header("Content-Type","application/json");
         res.header("Access-Control-Allow-Origin", "*");
         res.send({message: 'All users have been removed.'});
     });
@@ -239,7 +252,7 @@ SuperBowl.app.get('/removeAllUsers', function(req, res){
 
 SuperBowl.app.get('/addWinner', function(req, res) {
     var params = req.query;
-    res.header("Content-Type:","application/json");
+    res.header("Content-Type","application/json");
     res.header("Access-Control-Allow-Origin", "*");
 
     var addWinnerCallback = function(savedWinner) {
@@ -255,7 +268,7 @@ SuperBowl.app.get('/addWinner', function(req, res) {
 });
 
 SuperBowl.app.get('/unpaid', function(req, res) {
-    res.header("Content-Type:","application/json");
+    res.header("Content-Type","application/json");
     res.header("Access-Control-Allow-Origin", "*");
 
     var unpaidUsersCallback = function(unpaidUsers) {
@@ -267,7 +280,7 @@ SuperBowl.app.get('/unpaid', function(req, res) {
 
 SuperBowl.app.get('/removeAllWinners', function(req, res){
     winnersController.removeAllWinners(function(){
-        res.header("Content-Type:","application/json");
+        res.header("Content-Type","application/json");
         res.header("Access-Control-Allow-Origin", "*");
         res.send({message: 'All users have been removed.'});
     });
@@ -275,7 +288,7 @@ SuperBowl.app.get('/removeAllWinners', function(req, res){
 
 SuperBowl.app.get('/winners', function(req, res) {
     winnersController.getAllWinners(function(docs){
-        res.header("Content-Type:","application/json");
+        res.header("Content-Type","application/json");
         res.header("Access-Control-Allow-Origin", "*");
         res.send(docs);
     });
@@ -286,7 +299,7 @@ SuperBowl.app.get('/winners', function(req, res) {
  * @param callback - function(docs) array of returned docs, will return empty list if none are found
  */
 SuperBowl.app.get('/squareData', function(req, res) {
-    res.header("Content-Type:","application/json");
+    res.header("Content-Type","application/json");
     res.header("Access-Control-Allow-Origin", "*");
 
     var onSessionUserFetched = function(sessionUser) {
@@ -365,7 +378,7 @@ SuperBowl.app.get('/auth/venmo/callback', passport.authenticate('venmo', {
 
 SuperBowl.app.get('/auth/logout', function(req, res) {
     req.session.destroy();
-    res.header("Content-Type:","application/json");
+    res.header("Content-Type","application/json");
     res.header("Access-Control-Allow-Origin", "*");
     res.send({success: true});
 });
@@ -380,7 +393,7 @@ SuperBowl.app.get('/payUp', function(req, res){
             amount: sessionUser.amountOwed
         };
         var paymentSuccess = function(err, r, venmo_receipt) {
-            res.header("Content-Type:", "application/json");
+            res.header("Content-Type", "application/json");
             res.header("Access-Control-Allow-Origin", "*");
             var venmo_receipt = JSON.parse(venmo_receipt);
 
